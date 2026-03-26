@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MayCrab · 五月螃蟹 | 柳浪闻莺，星辰入海</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --willow-green: #2ECC71;    /* 嫩柳绿 */
+            --blossom-pink: #FF69B4;    /* 晚樱粉 */
+            --spring-gold: #FFD700;     /* 迎春金 */
+            --deep-sea-blue: #1A5276;   /* 深海蓝 */
+            --crab-red: #E74C3C;        /* 生命红 */
+            --sky-violet: #8E44AD;      /* 暮色紫 */
+            --bg-gradient: linear-gradient(135deg, #FFF5F7 0%, #F0F7FF 100%);
+            --transition-fluid: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--deep-sea-blue);
+            font-family: 'Montserrat', "ZCOOL XiaoWei", serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* 核心特效：春风垂柳层 */
+        #willow-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
+        }
+
+        /* 狂野导航 */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 100px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%; z-index: 1000;
+        }
+
+        .logo-wrap {
+            display: flex; align-items: center; gap: 15px;
+            font-family: 'Ma Shan Zheng', cursive; font-size: 2.5rem;
+            color: var(--blossom-pink); text-shadow: 2px 2px 0px var(--spring-gold);
+            text-decoration: none; transform: rotate(-2deg);
+        }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            text-decoration: none; color: var(--deep-sea-blue);
+            font-weight: 900; font-size: 0.9rem; letter-spacing: 2px;
+            padding: 10px 20px; border: 3px solid var(--deep-sea-blue);
+            transition: var(--transition-fluid); background: white;
+        }
+        .nav-links a:hover {
+            background: var(--spring-gold); color: white;
+            transform: translateY(-5px) rotate(3deg);
+            box-shadow: 5px 5px 0px var(--blossom-pink);
+        }
+
+        /* 视觉震撼区 */
+        .hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            flex-direction: column; text-align: center; position: relative; z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(5rem, 15vw, 12rem); font-weight: 900;
+            background: linear-gradient(to right, var(--blossom-pink), var(--sky-violet), var(--spring-gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(5px 5px 0px rgba(0,0,0,0.1));
+            line-height: 1; margin-bottom: 20px;
+        }
+
+        .hero-slogan {
+            font-family: 'Ma Shan Zheng', cursive; font-size: 3rem;
+            color: var(--willow-green); transform: skewX(-10deg);
+            background: white; padding: 10px 40px; box-shadow: 10px 10px 0px var(--crab-red);
+        }
+
+        /* 繁花矩阵 */
+        .grid-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px; padding: 100px 10%; background: white; position: relative; z-index: 2;
+        }
+
+        .crab-card {
+            height: 600px; border: 8px solid var(--deep-sea-blue);
+            position: relative; overflow: hidden; transition: var(--transition-fluid);
+            display: flex; flex-direction: column; cursor: pointer;
+        }
+
+        .crab-card:hover { transform: scale(1.05); box-shadow: 20px 20px 0px var(--spring-gold); }
+
+        .card-visual {
+            height: 60%; background: var(--blossom-pink);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .crab-geo { width: 200px; height: 150px; position: relative; }
+        .crab-geo div { position: absolute; background: var(--crab-red); border: 2px solid black; }
+        .body { width: 100px; height: 80px; left: 50px; top: 35px; border-radius: 10px; }
+        .claw { width: 40px; height: 40px; border-radius: 50% 50% 0 0; top: 0; background: var(--crab-red); animation: snap 1s infinite; }
+        @keyframes snap { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(20deg); } }
+
+        .card-info { padding: 30px; background: white; flex-grow: 1; border-top: 8px solid var(--deep-sea-blue); }
+        .card-info h3 { font-size: 2rem; color: var(--sky-violet); margin-bottom: 10px; }
+        .card-info p { font-family: 'ZCOOL XiaoWei'; font-size: 1.2rem; }
+
+        /* 深度文案区：星辰与诗 */
+        .story-section { padding: 100px 15%; background: var(--deep-sea-blue); color: white; position: relative; z-index: 2; }
+        .story-title { font-family: 'Ma Shan Zheng'; font-size: 5rem; color: var(--spring-gold); text-align: center; margin-bottom: 50px; }
+        .story-content { font-family: 'ZCOOL XiaoWei'; font-size: 1.8rem; line-height: 2.5; text-align: justify; }
+        
+        footer {
+            height: 500px; background: var(--blossom-pink);
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
+            position: relative; z-index: 2;
+        }
+
+        .huge-text { font-size: 10vw; font-weight: 900; color: rgba(255,255,255,0.3); letter-spacing: -10px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="willow-canvas"></canvas>
+
+    <nav>
+        <a href="#" class="logo-wrap">五月螃蟹 · MayCrab</a>
+        <div class="nav-links">
+            <a href="#hero">时序之诗</a>
+            <a href="#matrix">万物生长</a>
+            <a href="#story">灵魂独白</a>
+            <a href="#">FOUND</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <h1 class="hero-title">ETERNAL<br>MAYCRAB</h1>
+        <div class="hero-slogan">听，那是潮汐在写诗。</div>
+        <div style="margin-top: 40px; font-weight: 900; letter-spacing: 10px; color: var(--sky-violet);">
+            RHYTHM OF THE UNIVERSE // 2026
+        </div>
+    </section>
+
+    <section id="matrix" class="grid-container">
+        <div class="crab-card">
+            <div class="card-visual" style="background: var(--spring-gold);">
+                <div class="crab-geo">
+                    <div class="body"></div>
+                    <div class="claw" style="left:30px"></div>
+                    <div class="claw" style="right:30px"></div>
+                </div>
+            </div>
+            <div class="card-info">
+                <h3>三月 · 溯源</h3>
+                <p>在冰雪消融的晨曦里，生命开始构建第一枚关于温暖的词组。</p>
+            </div>
+        </div>
+
+        <div class="crab-card" style="border-color: var(--blossom-pink);">
+            <div class="card-visual" style="background: #FFB7C5;">
+                <div class="crab-geo">
+                    <div class="body" style="background: var(--sky-violet)"></div>
+                    <div class="body" style="width:20px; height:20px; top:10px; left:20px; border-radius:50%"></div>
+                    <div class="body" style="width:20px; height:20px; top:10px; right:20px; border-radius:50%"></div>
+                </div>
+            </div>
+            <div class="card-info" style="border-color: var(--blossom-pink);">
+                <h3>四月 · 幻梦</h3>
+                <p>满天星辰坠入春水的涟漪，万物在呼吸间，交换着古老的秘密。</p>
+            </div>
+        </div>
+
+        <div class="crab-card" style="border-color: var(--willow-green); transform: rotate(2deg);">
+            <div class="card-visual" style="background: var(--deep-sea-blue);">
+                <div class="crab-geo">
+                    <div class="body" style="background: var(--crab-red)"></div>
+                </div>
+            </div>
+            <div class="card-info" style="border-color: var(--willow-green);">
+                <h3>五月 · 盛放</h3>
+                <p>这是灵魂的归巢。在最绚烂的光影里，我们要活得像潮汐一样自由。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="story-section" id="story">
+        <h2 class="story-title">五月的灵魂，是会发光的。</h2>
+        <div class="story-content">
+            <p>世界从来不是非黑即白的逻辑。在 <b>MayCrab</b> 的时序里，每一秒跳动都是生命对自由的赤诚告白。</p>
+            <p>我们不再讨论那些冰冷的构造，我们只歌颂这无边无际的春色。<b>MayCrab</b> 是一只追逐星光的螃蟹，它越过礁石的禁锢，在五月的暖风里，跳一出名为“存在”的舞。</p>
+            <p>去感受吧，当清风掠过湖面，当嫩柳拂动心弦，那不仅仅是自然的律动，那是灵魂挣脱枷锁后的长舒一口气。我们用色彩填满每一处荒芜，用诗意缝合每一道裂痕。</p>
+            <p><b>既然要存在，那就让这生命，开到时间的尽头！</b></p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="huge-text">BORN IN MAY</div>
+        <p style="color:white; font-weight:900; letter-spacing:5px;">星辰入海，万物生光。</p>
+    </footer>
+
+    <script>
+        /* ---------------------------------------------------------
+           柳浪闻莺引擎 (Willow Wind Physics Engine)
+           这部分代码模拟了柳枝在春风中自然摆动的物理效果
+           --------------------------------------------------------- */
+        const canvas = document.getElementById('willow-canvas');
+        const ctx = canvas.getContext('2d');
+        let branches = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Branch {
+            constructor(x, y, length, segments) {
+                this.x = x;
+                this.y = y;
+                this.length = length;
+                this.segments = segments;
+                this.nodes = [];
+                for(let i=0; i<=segments; i++) {
+                    this.nodes.push({x: x, y: y + (i * length / segments), ox: x, oy: y + (i * length / segments)});
+                }
+                this.time = Math.random() * 100;
+            }
+
+            update(wind) {
+                this.time += 0.02;
+                for(let i=1; i<=this.segments; i++) {
+                    let node = this.nodes[i];
+                    let prev = this.nodes[i-1];
+                    // 模拟风力和重力平衡
+                    let targetX = prev.x + Math.sin(this.time + i * 0.2) * (10 + wind * i);
+                    let targetY = prev.y + (this.length / this.segments);
+                    
+                    node.x += (targetX - node.x) * 0.1;
+                    node.y += (targetY - node.y) * 0.1;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.nodes[0].x, this.nodes[0].y);
+                for(let i=1; i<this.nodes.length; i++) {
+                    ctx.lineTo(this.nodes[i].x, this.nodes[i].y);
+                }
+                ctx.strokeStyle = 'rgba(46, 204, 113, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // 画柳叶
+                for(let i=5; i<this.nodes.length; i+=2) {
+                    let node = this.nodes[i];
+                    ctx.fillStyle = 'rgba(46, 204, 113, 0.4)';
+                    ctx.save();
+                    ctx.translate(node.x, node.y);
+                    ctx.rotate(Math.sin(this.time + i) * 0.5);
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, 2, 8, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+        }
+
+        function init() {
+            branches = [];
+            for(let i=0; i<15; i++) {
+                branches.push(new Branch(Math.random() * canvas.width, -20, 300 + Math.random() * 400, 20));
+            }
+        }
+
+        let windValue = 0;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // 随着滚动改变风力
+            windValue = window.scrollY / 100;
+            branches.forEach(b => {
+                b.update(windValue);
+                b.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => { resize(); init(); });
+        resize();
+        init();
+        animate();
+
+        // 色彩渐变响应
+        window.addEventListener('scroll', () => {
+            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            document.body.style.filter = `hue-rotate(${scrollPercent * 180}deg)`;
+        });
+
+        console.log("春风已至，柳浪翻涌。");
+    </script>
+</body>
+</html>
